@@ -1,5 +1,5 @@
 {
-  "name": "supost",
+  "name": "supostify",
   "version": "0.0.1",
   "description": "SUPost notifier for new listings. Integrates with IFTTT.",
   "main": "index.js",

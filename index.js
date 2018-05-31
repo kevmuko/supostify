@@ -10,15 +10,24 @@ const SUPOST_URL = 'http://supost.com/search/cat/3';
 const listings = {};
 
 const sendAlert = async (data) => {
-  await axios.post(`${IFTTT_WEBHOOK_URL}/new_post/with/key/${IFTTT_WEBHOOK_KEY}`, {
-    value1: SUPOST_CATEGORY,
-    value2: data.title,
-    value3: data.link,
-  });
+  try {
+    await axios.post(`${IFTTT_WEBHOOK_URL}/new_post/with/key/${IFTTT_WEBHOOK_KEY}`, {
+      value1: SUPOST_CATEGORY,
+      value2: data.title,
+      value3: data.link,
+    });
+  } catch (error) {
+    logger.error(error.message);
+  }
 };
 
 const fetchListings = async (notify) => {
-  let res = await axios.get(SUPOST_URL);
+  let res;
+  try {
+    res = await axios.get(SUPOST_URL);
+  } catch (error) {
+    return logger.error(error.message)
+  }
   const $ = cheerio.load(res.data);
   $('.one-result').each((i, elem) => {
     let node = $(elem).children('a');
